@@ -28,7 +28,7 @@ async def automodFilter(guild):
             event_type=discord.AutoModRuleEventType.message_send,
             actions=[action] 
         )
-        await guild.create_auto_mod_rule(rule)
+        await guild.automodFilter(rule)
     except Exception as e:
         print(f"Failed to create AutoModRule: {e}")
 
