@@ -1,7 +1,7 @@
 # FeatureRichBot
 A discord bot made on discord.py API wrapper
 
-#Goals
+# Goals
 - Music System
 - Economy System
 - Moderation System
