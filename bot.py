@@ -1,6 +1,8 @@
+import datetime
 import discord
 import config
 from discord.ext import commands
+from datetime import timedelta
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -36,12 +38,13 @@ async def ping(ctx):
     await ctx.send("Pong!")
 
 @bot.command()
-async def ban(ctx, user:    discord.Member, reason=None):
+async def ban(ctx, user:    discord.User, reason=None):
     if user is None:
         await ctx.send("You can't ban no one")
     else:
         await ctx.guild.ban(user, reason=reason)
-        await ctx.send(f"{user} was banned, Reason: {reason}")
+        _ban_ = discord.Embed(title="BAN command initiation", description=(f"{user} was banned, Reason: {reason}"), color=0xFEE75C)
+        await ctx.send(embed=_ban_)
 
 @bot.command()
 async def unban(ctx, user:  discord.User, reason=None):
@@ -49,7 +52,8 @@ async def unban(ctx, user:  discord.User, reason=None):
         await ctx.send("Are you trying to unban air?")
     else:
         await ctx.guild.unban(user, reason=reason)
-        await ctx.send(f"{user} has been unbanned, Reason: {reason}")
+        _unban_ = discord.Embed(title="UNBAN command initiation", description=(f"{user} was unbanned, Reason: {reason}"), color=0xFEE75C)
+        await ctx.send(embed=_unban_)
 
 @bot.command()
 async def kick(ctx, user:   discord.Member, reason=None):
@@ -57,13 +61,16 @@ async def kick(ctx, user:   discord.Member, reason=None):
         await ctx.send("You cant kick no one")
     else:
         await ctx.guild.kick(user, reason=reason)
-        await ctx.send(f"{user} was kicked, Reason: {reason}")
+        _kick_ = discord.Embed(title="KICK command initiation", description=(f"{user} was kicked, Reason: {reason}"), color=0xFEE75C)
+        await ctx.send(embed=_kick_)
 
 @bot.command()
-async def mute(ctx, user:   discord.Member, reason=None):
+async def timeout(ctx, user:   discord.Member, time: int, reason=None):
     if user is None:
-        await ctx.send("Bro really be trying to mute air")
+        await ctx.send("Bro really be trying to timeout air")
     else:
-        await ctx.send("hmm")
+        await user.timeout(datetime.timedelta(seconds=time), reason=reason)
+        _timeout_ = discord.Embed(title="TIMEOUT command initiation", description=(f"{user} was timeouted for {time} seconds, Reason: {reason}"), color=0xFEE75C)
+        await ctx.send(embed=_timeout_)
 
 bot.run(config.DISCORD_TOKEN)
